@@ -225,7 +225,6 @@ private fun ShareCountInfo(shares: String) {
             painter = painterResource(id = R.drawable.ic_share),
             contentDescription = ""
         )
-
     }
 }
 
@@ -245,7 +244,6 @@ private fun CommentsCountInfo(comments: String) {
             painter = painterResource(id = R.drawable.ic_comment),
             contentDescription = ""
         )
-
     }
 }
 
@@ -260,7 +258,6 @@ private fun LikesCountInfo(likes: String) {
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
         )
-
         Image(
             painter = painterResource(id = R.drawable.ic_like),
             contentDescription = ""
