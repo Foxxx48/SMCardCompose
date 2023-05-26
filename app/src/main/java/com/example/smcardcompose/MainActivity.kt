@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -39,10 +41,11 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SMCardComposeTheme {
+            SMCardComposeTheme(dynamicColor = false) {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     SMCard()
@@ -56,21 +59,21 @@ class MainActivity : ComponentActivity() {
 fun SMCard() {
     Card(
         modifier = Modifier
+            .fillMaxSize()
             .padding(8.dp),
         shape = RoundedCornerShape(4.dp)
 
     ) {
-        Column() {
+        Column(modifier = Modifier
+            .background( MaterialTheme.colorScheme.background)) {
             Row(
                 modifier = Modifier
-                    .background(Color.Yellow)
-                    .fillMaxWidth(),
+                    .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
 
                 ) {
                 Image(
                     modifier = Modifier
-
                         .size(60.dp)
                         .clip(CircleShape)
                         .background(Color.White)
@@ -84,35 +87,36 @@ fun SMCard() {
 
                 Column(
                     modifier = Modifier
-                        .background(Color.Magenta)
                         .weight(1f),
                 ) {
                     Text(
                         text = "Foxxx",
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimary
                     )
 
                     Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
                         text = "23:23",
-                        color = Color.Gray
+                        color = MaterialTheme.colorScheme.onSecondary,
+                        fontWeight = FontWeight.Bold
                     )
                 }
 
-                Image(
+                Icon(
                     modifier = Modifier
                         .size(40.dp)
                         .padding(8.dp),
                     painter = painterResource(id = R.drawable.ic_three_dots_vertical),
-                    contentDescription = ""
+                    contentDescription = "",
+                    tint = MaterialTheme.colorScheme.onSecondary
                 )
             }
 
             Row(
                 modifier = Modifier
-                    .background(Color.Cyan)
                     .fillMaxWidth()
                     .padding(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -127,10 +131,12 @@ fun SMCard() {
                     .border(2.dp, Color.Black),
                 painter = painterResource(id = R.drawable.pic_horizon),
                 contentDescription = "poster",
-            )
+                alignment = Alignment.BottomEnd,
+
+
+                )
             Row(
                 modifier = Modifier
-                    .background(Color.Red)
                     .fillMaxWidth()
                     .padding(8.dp),
 
@@ -138,7 +144,7 @@ fun SMCard() {
                 horizontalArrangement = Arrangement.Start
             ) {
                 ViewsCountInfo(views = "233")
-                Spacer(modifier = Modifier.width(130.dp))
+                Spacer(modifier = Modifier.width(150.dp))
 
                 ShareCountInfo(shares = "130")
                 Spacer(modifier = Modifier.width(10.dp))
@@ -148,47 +154,13 @@ fun SMCard() {
 
                 LikesCountInfo(likes = "200")
 
-
-
             }
+
+            BoxColors()
         }
     }
 
 }
-
-@Preview(showBackground = true)
-@Composable
-fun SMCardPreview() {
-    SMCardComposeTheme {
-        SMCard()
-    }
-}
-
-
-@Composable
-private fun UserInfo(nickName: String, time: String, modifier: Modifier = Modifier) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceEvenly
-    ) {
-        Text(
-            text = nickName,
-            fontStyle = FontStyle.Normal,
-            fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
-
-            )
-
-        Text(
-            text = time,
-            fontStyle = FontStyle.Normal,
-            color = Color.Gray,
-            fontSize = 14.sp,
-
-            )
-    }
-}
-
 @Composable
 private fun ViewsCountInfo(views: String) {
     Row(
@@ -200,6 +172,7 @@ private fun ViewsCountInfo(views: String) {
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
         )
+        Spacer(modifier = Modifier.width(4.dp))
 
         Image(
             painter = painterResource(id = R.drawable.ic_views_count),
@@ -221,6 +194,8 @@ private fun ShareCountInfo(shares: String) {
             fontSize = 16.sp,
         )
 
+        Spacer(modifier = Modifier.width(4.dp))
+
         Image(
             painter = painterResource(id = R.drawable.ic_share),
             contentDescription = ""
@@ -240,6 +215,8 @@ private fun CommentsCountInfo(comments: String) {
             fontSize = 16.sp,
         )
 
+        Spacer(modifier = Modifier.width(4.dp))
+
         Image(
             painter = painterResource(id = R.drawable.ic_comment),
             contentDescription = ""
@@ -258,10 +235,100 @@ private fun LikesCountInfo(likes: String) {
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
         )
+
+        Spacer(modifier = Modifier.width(4.dp))
         Image(
             painter = painterResource(id = R.drawable.ic_like),
             contentDescription = ""
         )
 
+    }
+}
+
+@Preview
+@Composable
+fun PreviewLightTheme() {
+    SMCardComposeTheme(
+        darkTheme = false,
+        dynamicColor = false
+    ) {
+        SMCard()
+
+    }
+}
+
+@Preview
+@Composable
+fun PreviewDarkTheme() {
+    SMCardComposeTheme(
+        darkTheme = true,
+        dynamicColor = false
+    ) {
+        SMCard()
+
+    }
+}
+
+@Composable
+fun BoxColors() {
+    Row(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Box(
+            modifier = Modifier
+                .size(70.dp)
+                .background(MaterialTheme.colorScheme.primary)
+        ) {
+            Text(text = "Primary")
+        }
+        Spacer(
+            modifier = Modifier
+                .width(4.dp)
+        )
+
+        Box(
+            modifier = Modifier
+                .size(70.dp)
+                .background(MaterialTheme.colorScheme.onPrimary)
+        ) {
+            Text(text = "onPrimary")
+        }
+        Spacer(
+            modifier = Modifier
+                .width(4.dp)
+        )
+
+        Box(
+            modifier = Modifier
+                .size(70.dp)
+                .background(MaterialTheme.colorScheme.secondary)
+        ) {
+            Text(text = "Secondary")
+        }
+        Spacer(
+            modifier = Modifier
+                .width(4.dp)
+        )
+
+        Box(
+            modifier = Modifier
+                .size(70.dp)
+                .background(MaterialTheme.colorScheme.onSecondary)
+        ) {
+            Text(text = "onSecondary")
+        }
+        Spacer(
+            modifier = Modifier
+                .width(4.dp)
+        )
+
+        Box(
+            modifier = Modifier
+                .size(70.dp)
+                .background(MaterialTheme.colorScheme.tertiary)
+        ) {
+            Text(text = "tertiary")
+        }
     }
 }
