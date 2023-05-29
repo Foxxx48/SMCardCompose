@@ -40,11 +40,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.smcardcompose.ui.Example
 import com.example.smcardcompose.ui.theme.SMCardComposeTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val testExample = Example()
+
         setContent {
             SMCardComposeTheme(dynamicColor = false) {
                 // A surface container using the 'background' color from the theme
@@ -53,7 +56,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SMCard()
+                    testExample.Test()
                 }
             }
         }
