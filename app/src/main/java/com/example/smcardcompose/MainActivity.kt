@@ -17,8 +17,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material3.Card
@@ -29,9 +31,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,124 +64,151 @@ class MainActivity : ComponentActivity() {
 fun SMCard() {
     Card(
         modifier = Modifier
-            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
             .padding(8.dp),
-        shape = RoundedCornerShape(4.dp)
+
+        shape = RoundedCornerShape(6.dp),
 
     ) {
-        Column(modifier = Modifier
-            .background( MaterialTheme.colorScheme.background)) {
-            Row(
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background)
+        ) {
+            PostHeader()
+
+
+
+            Text(
                 modifier = Modifier
                     .padding(8.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                text = stringResource(id = R.string.horizon_zero_down),
+                color = MaterialTheme.colorScheme.onPrimary,
+                fontSize = 16.sp,
+                textAlign = TextAlign.Justify
+            )
 
-                ) {
-                Image(
-                    modifier = Modifier
-                        .size(60.dp)
-                        .clip(CircleShape)
-                        .background(Color.White)
-                        .padding(8.dp),
-
-                    painter = painterResource(id = R.drawable.ic_fox),
-                    contentDescription = ""
-                )
-
-                Spacer(modifier = Modifier.width(8.dp))
-
-                Column(
-                    modifier = Modifier
-                        .weight(1f),
-                ) {
-                    Text(
-                        text = "Foxxx",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onPrimary
-                    )
-
-                    Spacer(modifier = Modifier.height(4.dp))
-
-                    Text(
-                        text = "23:23",
-                        color = MaterialTheme.colorScheme.onSecondary,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-
-                Icon(
-                    modifier = Modifier
-                        .size(40.dp)
-                        .padding(8.dp),
-                    painter = painterResource(id = R.drawable.ic_three_dots_vertical),
-                    contentDescription = "",
-                    tint = MaterialTheme.colorScheme.onSecondary
-                )
-            }
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
-
-            ) {
-                Text(text = "Horizon forbidden west - игрокино")
-            }
+            Spacer(modifier = Modifier.height(8.dp))
 
             Image(
-                modifier = Modifier
-                    .border(2.dp, Color.Black),
-                painter = painterResource(id = R.drawable.pic_horizon),
-                contentDescription = "poster",
-                alignment = Alignment.BottomEnd,
-
-
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .border(2.dp, Color.Black),
+                    painter = painterResource(id = R.drawable.pic_horizon_zero_down),
+                    contentDescription = "poster",
+                    contentScale = ContentScale.Fit,
                 )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp),
 
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Start
-            ) {
-                ViewsCountInfo(views = "233")
-                Spacer(modifier = Modifier.width(150.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-                ShareCountInfo(shares = "130")
-                Spacer(modifier = Modifier.width(10.dp))
+            Statistics()
 
-                CommentsCountInfo(comments = "30")
-                Spacer(modifier = Modifier.width(10.dp))
 
-                LikesCountInfo(likes = "200")
 
-            }
-
-            BoxColors()
+//            BoxColors()
         }
     }
-
 }
+
+@Composable
+private fun Statistics() {
+    Row(
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Start
+    ) {
+
+        Row(
+            modifier = Modifier
+            .weight(1f),
+        ) {
+            ViewsCountInfo(views = "233")
+        }
+
+        Row(
+            modifier = Modifier
+            .weight(1f),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            ShareCountInfo(shares = "130")
+            CommentsCountInfo(comments = "30")
+            LikesCountInfo(likes = "200")
+        }
+    }
+}
+
+
+@Composable
+private fun PostHeader() {
+    Row(
+        modifier = Modifier
+            .padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+
+        ) {
+        Image(
+            modifier = Modifier
+                .size(60.dp)
+                .clip(CircleShape)
+                .background(Color.White)
+                .padding(8.dp),
+
+            painter = painterResource(id = R.drawable.ic_fox),
+            contentDescription = ""
+        )
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Column(
+            modifier = Modifier
+                .weight(1f),
+        ) {
+            Text(
+                text = "Foxxx",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = "23:23",
+                color = MaterialTheme.colorScheme.onSecondary,
+                fontWeight = FontWeight.Bold
+            )
+        }
+
+        Icon(
+            modifier = Modifier
+                .size(40.dp)
+                .padding(8.dp),
+            painter = painterResource(id = R.drawable.ic_three_dots_vertical),
+            contentDescription = "",
+            tint = MaterialTheme.colorScheme.onSecondary
+        )
+    }
+}
+
 @Composable
 private fun ViewsCountInfo(views: String) {
-    Row(
-
-    ) {
+    Row() {
         Text(
             text = views,
             fontStyle = FontStyle.Normal,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSecondary
         )
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(6.dp))
 
-        Image(
+        Icon(
             painter = painterResource(id = R.drawable.ic_views_count),
-            contentDescription = ""
+            contentDescription = "",
+            tint = MaterialTheme.colorScheme.onSecondary
         )
 
     }
@@ -192,14 +224,16 @@ private fun ShareCountInfo(shares: String) {
             fontStyle = FontStyle.Normal,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSecondary
         )
 
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(6.dp))
 
         Image(
             painter = painterResource(id = R.drawable.ic_share),
-            contentDescription = ""
-        )
+            contentDescription = "",
+
+            )
     }
 }
 
@@ -213,9 +247,10 @@ private fun CommentsCountInfo(comments: String) {
             fontStyle = FontStyle.Normal,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSecondary
         )
 
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(6.dp))
 
         Image(
             painter = painterResource(id = R.drawable.ic_comment),
@@ -234,9 +269,10 @@ private fun LikesCountInfo(likes: String) {
             fontStyle = FontStyle.Normal,
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
+            color = MaterialTheme.colorScheme.onSecondary
         )
 
-        Spacer(modifier = Modifier.width(4.dp))
+        Spacer(modifier = Modifier.width(6.dp))
         Image(
             painter = painterResource(id = R.drawable.ic_like),
             contentDescription = ""
