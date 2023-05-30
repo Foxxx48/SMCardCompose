@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.smcardcompose.ui.Example
+import com.example.smcardcompose.ui.TestScaffold
 import com.example.smcardcompose.ui.theme.SMCardComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -56,7 +57,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    testExample.Test()
+                    TestScaffold()
                 }
             }
         }
@@ -219,9 +220,7 @@ private fun ViewsCountInfo(views: String) {
 
 @Composable
 private fun ShareCountInfo(shares: String) {
-    Row(
-
-    ) {
+    Row() {
         Text(
             text = shares,
             fontStyle = FontStyle.Normal,
@@ -242,9 +241,7 @@ private fun ShareCountInfo(shares: String) {
 
 @Composable
 private fun CommentsCountInfo(comments: String) {
-    Row(
-
-    ) {
+    Row() {
         Text(
             text = comments,
             fontStyle = FontStyle.Normal,
@@ -264,9 +261,7 @@ private fun CommentsCountInfo(comments: String) {
 
 @Composable
 private fun LikesCountInfo(likes: String) {
-    Row(
-
-    ) {
+    Row() {
         Text(
             text = likes,
             fontStyle = FontStyle.Normal,
