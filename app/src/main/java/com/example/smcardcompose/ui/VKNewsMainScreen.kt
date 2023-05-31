@@ -7,23 +7,27 @@ import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.smcardcompose.ui.theme.SMCardComposeTheme
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-
 @Composable
 fun MainScreen() {
     Scaffold(
         bottomBar = {
             BottomNavigation(
-                backgroundColor = MaterialTheme.colorScheme.background
+//                backgroundColor = MaterialTheme.colorScheme.background
             ) {
-                val selectedItemPosition = 0
+                val selectedItemPosition = remember {
+                    mutableStateOf(0)
+                }
+
                 val items =
                     listOf(
                         NavigationItem.Home,
@@ -32,22 +36,22 @@ fun MainScreen() {
                     )
                 items.forEachIndexed() { index, item ->
                     BottomNavigationItem(
-                        selected = selectedItemPosition == index,
-                        onClick = {},
+                        selected = selectedItemPosition.value == index,
+                        onClick = {selectedItemPosition.value = index},
                         icon = {
                             Icon(
                                 item.icon, contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimary
+//                                tint = MaterialTheme.colorScheme.onPrimary
                             )
                         },
                         label = {
                             Text(
                                 text = stringResource(id = item.titleResId),
-                                color = MaterialTheme.colorScheme.onPrimary
+//                                color = MaterialTheme.colorScheme.onPrimary
                             )
                         },
-                        selectedContentColor = MaterialTheme.colorScheme.secondary,
-                        unselectedContentColor = MaterialTheme.colorScheme.onSecondary
+                        selectedContentColor = Color.Red,
+                        unselectedContentColor = Color.Green
                     )
                 }
             }
