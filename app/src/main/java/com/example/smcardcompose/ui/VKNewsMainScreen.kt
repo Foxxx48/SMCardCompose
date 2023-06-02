@@ -28,7 +28,9 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
-    val snackbarHostState = SnackbarHostState()
+    val snackbarHostState = remember {
+        SnackbarHostState()
+    }
     val scope = rememberCoroutineScope()
     val fabIsVisible = remember {
         mutableStateOf(true)
@@ -57,7 +59,6 @@ fun MainScreen() {
                     Icon(Icons.Filled.Add, contentDescription = null)
                 }
             }
-
         },
         bottomBar = {
             BottomNavigation() {
@@ -71,6 +72,7 @@ fun MainScreen() {
                         NavigationItem.Favorite,
                         NavigationItem.Account
                     )
+
                 items.forEachIndexed() { index, item ->
                     BottomNavigationItem(
                         selected = selectedItemPosition.value == index,
