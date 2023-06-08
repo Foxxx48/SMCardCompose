@@ -37,7 +37,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.smcardcompose.R
+import com.example.smcardcompose.domain.StatisticItem
+import com.example.smcardcompose.domain.StatisticType
 import com.example.smcardcompose.ui.theme.SMCardComposeTheme
+import java.lang.IllegalStateException
 
 @Composable
 fun SMCard(
@@ -90,7 +93,9 @@ fun SMCard(
 }
 
 @Composable
-private fun Statistics() {
+private fun Statistics(
+    statistics: List<StatisticItem>
+) {
     Row(
         modifier = Modifier
             .padding(8.dp)
@@ -103,7 +108,8 @@ private fun Statistics() {
             modifier = Modifier
                 .weight(1f),
         ) {
-            ViewsCountInfo(views = "233")
+            val viewsItem = statistics.getItemByType(StatisticType.VIEWS)
+            ViewsCountInfo(views = viewsItem.count.toString())
         }
 
         Row(
@@ -111,11 +117,18 @@ private fun Statistics() {
                 .weight(1f),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            ShareCountInfo(shares = "130")
-            CommentsCountInfo(comments = "30")
-            LikesCountInfo(likes = "200")
+            val sharesItem = statistics.getItemByType(StatisticType.SHARES)
+            val commentsItem = statistics.getItemByType(StatisticType.COMMENTS)
+            val likesItem = statistics.getItemByType(StatisticType.LIKES)
+            ShareCountInfo(shares = sharesItem.count.toString())
+            CommentsCountInfo(comments = commentsItem.count.toString())
+            LikesCountInfo(likes = likesItem.count.toString())
         }
     }
+}
+
+private fun List<StatisticItem>.getItemByType(type: StatisticType): StatisticItem {
+    return this.find { it.type == type } ?: throw IllegalStateException("Wrong type")
 }
 
 
