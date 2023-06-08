@@ -2,6 +2,7 @@ package com.example.smcardcompose.ui
 
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
 import androidx.compose.material.FloatingActionButton
@@ -18,9 +19,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.smcardcompose.ui.theme.SMCardComposeTheme
 import kotlinx.coroutines.launch
 
@@ -95,6 +98,10 @@ fun MainScreen() {
             }
         },
     ) {
+        SMCard(
+            modifier = Modifier
+                .padding(8.dp)
+        )
     }
 }
 
