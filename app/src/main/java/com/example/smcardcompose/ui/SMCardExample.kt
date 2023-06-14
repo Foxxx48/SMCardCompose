@@ -58,7 +58,7 @@ fun SMCard(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
         ) {
-            PostHeader()
+            PostHeader(feedPost)
 
             Text(
                 modifier = Modifier
@@ -130,7 +130,9 @@ private fun List<StatisticItem>.getItemByType(type: StatisticType): StatisticIte
 
 
 @Composable
-private fun PostHeader() {
+private fun PostHeader(
+    feedPost: FeedPost
+) {
     Row(
         modifier = Modifier
             .padding(8.dp),
@@ -144,7 +146,7 @@ private fun PostHeader() {
                 .background(Color.White)
                 .padding(8.dp),
 
-            painter = painterResource(id = R.drawable.ic_fox),
+            painter = painterResource(id = feedPost.avatarResId),
             contentDescription = ""
         )
 
@@ -155,7 +157,7 @@ private fun PostHeader() {
                 .weight(1f),
         ) {
             Text(
-                text = "Foxxx",
+                text = feedPost.communityName,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onPrimary
@@ -164,7 +166,7 @@ private fun PostHeader() {
             Spacer(modifier = Modifier.height(4.dp))
 
             Text(
-                text = "23:23",
+                text = feedPost.publicationDate,
                 color = MaterialTheme.colorScheme.onSecondary,
                 fontWeight = FontWeight.Bold
             )
