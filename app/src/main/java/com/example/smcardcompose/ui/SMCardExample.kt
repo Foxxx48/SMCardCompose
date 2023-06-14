@@ -29,7 +29,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -37,14 +36,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.smcardcompose.R
+import com.example.smcardcompose.domain.FeedPost
 import com.example.smcardcompose.domain.StatisticItem
 import com.example.smcardcompose.domain.StatisticType
 import com.example.smcardcompose.ui.theme.SMCardComposeTheme
-import java.lang.IllegalStateException
 
 @Composable
 fun SMCard(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    feedPost: FeedPost
 ) {
     Card(
         modifier = modifier
@@ -63,7 +63,7 @@ fun SMCard(
             Text(
                 modifier = Modifier
                     .padding(8.dp),
-                text = stringResource(id = R.string.horizon_zero_down),
+                text = feedPost.contentText,
                 color = MaterialTheme.colorScheme.onPrimary,
                 fontSize = 16.sp,
                 textAlign = TextAlign.Justify
@@ -76,18 +76,15 @@ fun SMCard(
                     .fillMaxWidth()
                     .height(550.dp)
                     .border(2.dp, Color.Black),
-                painter = painterResource(id = R.drawable.pic_horizon_zero_down),
+                painter = painterResource(id = feedPost.contentImageResId),
                 contentDescription = "poster",
                 contentScale = ContentScale.Fit,
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Statistics()
-
-
-
-//            BoxColors()
+            Statistics(statistics = feedPost.statistics)
+        //            BoxColors()
         }
     }
 }
@@ -269,11 +266,12 @@ private fun LikesCountInfo(likes: String) {
 @Preview
 @Composable
 fun PreviewSMCLightTheme() {
+
     SMCardComposeTheme(
         darkTheme = false,
         dynamicColor = false
     ) {
-        SMCard()
+        SMCard(feedPost = FeedPost())
 
     }
 }
@@ -285,7 +283,7 @@ fun PreviewSMCDarkTheme() {
         darkTheme = true,
         dynamicColor = false
     ) {
-        SMCard()
+        SMCard(feedPost = FeedPost())
 
     }
 }

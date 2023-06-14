@@ -24,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.smcardcompose.domain.FeedPost
 import com.example.smcardcompose.ui.theme.SMCardComposeTheme
 import kotlinx.coroutines.launch
 
@@ -100,7 +101,8 @@ fun MainScreen() {
     ) {
         SMCard(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(8.dp),
+            feedPost = FeedPost()
         )
     }
 }
