@@ -5,65 +5,30 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
-import androidx.compose.material.SnackbarResult
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.smcardcompose.domain.FeedPost
+import com.example.smcardcompose.domain.StatisticItem
+import com.example.smcardcompose.domain.StatisticType
 import com.example.smcardcompose.ui.theme.SMCardComposeTheme
-import kotlinx.coroutines.launch
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun MainScreen() {
-    val snackbarHostState = remember {
-        SnackbarHostState()
+    val feedPost = remember {
+        mutableStateOf(FeedPost())
     }
-    val scope = rememberCoroutineScope()
-    val fabIsVisible = remember {
-        mutableStateOf(true)
-    }
-
     Scaffold(
-        snackbarHost = {
-            SnackbarHost(snackbarHostState)
-        },
-        floatingActionButton = {
-            if (fabIsVisible.value) {
-                FloatingActionButton(
-                    onClick = {
-                        scope.launch {
-                            val action = snackbarHostState.showSnackbar(
-                                "SnackBarScope",
-                                actionLabel = "Hide FAB",
-                                duration = SnackbarDuration.Long
-                            )
-                            if (action == SnackbarResult.ActionPerformed) {
-                                fabIsVisible.value = false
-                            }
-                        }
-                    }
-                ) {
-                    Icon(Icons.Filled.Add, contentDescription = null)
-                }
-            }
-        },
         bottomBar = {
             BottomNavigation() {
                 val selectedItemPosition = remember {
@@ -102,7 +67,12 @@ fun MainScreen() {
         SMCard(
             modifier = Modifier
                 .padding(8.dp),
-            feedPost = FeedPost()
+            feedPost = feedPost.value,
+            onStatisticsItemClickListener = {
+
+    }
+
+            }
         )
     }
 }

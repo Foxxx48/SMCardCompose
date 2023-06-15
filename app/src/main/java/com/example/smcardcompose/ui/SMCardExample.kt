@@ -1,8 +1,10 @@
 package com.example.smcardcompose.ui
 
+import android.widget.AdapterView.OnItemClickListener
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -44,7 +46,8 @@ import com.example.smcardcompose.ui.theme.SMCardComposeTheme
 @Composable
 fun SMCard(
     modifier: Modifier = Modifier,
-    feedPost: FeedPost
+    feedPost: FeedPost,
+    onStatisticsItemClickListener: (StatisticItem) -> Unit
 ) {
     Card(
         modifier = modifier
@@ -74,7 +77,7 @@ fun SMCard(
             Image(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(550.dp)
+                    .height(400.dp)
                     .border(2.dp, Color.Black),
                 painter = painterResource(id = feedPost.contentImageResId),
                 contentDescription = "poster",
@@ -83,15 +86,19 @@ fun SMCard(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Statistics(statistics = feedPost.statistics)
-        //            BoxColors()
+            Statistics(
+                statistics = feedPost.statistics,
+                onItemClickListener = onStatisticsItemClickListener
+            )
+            //            BoxColors()
         }
     }
 }
 
 @Composable
 private fun Statistics(
-    statistics: List<StatisticItem>
+    statistics: List<StatisticItem>,
+    onItemClickListener: (StatisticItem) -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -106,7 +113,10 @@ private fun Statistics(
                 .weight(1f),
         ) {
             val viewsItem = statistics.getItemByType(StatisticType.VIEWS)
-            ViewsCountInfo(views = viewsItem.count.toString())
+            ViewsCountInfo(views = viewsItem.count.toString(),
+                onItemClickListener = {
+                    onItemClickListener(viewsItem)
+                })
         }
 
         Row(
@@ -117,9 +127,18 @@ private fun Statistics(
             val sharesItem = statistics.getItemByType(StatisticType.SHARES)
             val commentsItem = statistics.getItemByType(StatisticType.COMMENTS)
             val likesItem = statistics.getItemByType(StatisticType.LIKES)
-            ShareCountInfo(shares = sharesItem.count.toString())
-            CommentsCountInfo(comments = commentsItem.count.toString())
-            LikesCountInfo(likes = likesItem.count.toString())
+            ShareCountInfo(shares = sharesItem.count.toString(),
+                onItemClickListener = {
+                    onItemClickListener(sharesItem)
+                })
+            CommentsCountInfo(comments = commentsItem.count.toString(),
+                onItemClickListener = {
+                    onItemClickListener(commentsItem)
+                })
+            LikesCountInfo(likes = likesItem.count.toString(),
+                onItemClickListener = {
+                    onItemClickListener(likesItem)
+                })
         }
     }
 }
@@ -184,8 +203,15 @@ private fun PostHeader(
 }
 
 @Composable
-private fun ViewsCountInfo(views: String) {
-    Row() {
+private fun ViewsCountInfo(
+    views: String,
+    onItemClickListener: () -> Unit
+) {
+    Row(
+        modifier = Modifier.clickable {
+            onItemClickListener
+        }
+    ) {
         Text(
             text = views,
             fontStyle = FontStyle.Normal,
@@ -205,8 +231,15 @@ private fun ViewsCountInfo(views: String) {
 }
 
 @Composable
-private fun ShareCountInfo(shares: String) {
-    Row() {
+private fun ShareCountInfo(
+    shares: String,
+    onItemClickListener: () -> Unit
+) {
+    Row(
+        modifier = Modifier.clickable {
+            onItemClickListener
+        }
+    ) {
         Text(
             text = shares,
             fontStyle = FontStyle.Normal,
@@ -226,8 +259,15 @@ private fun ShareCountInfo(shares: String) {
 }
 
 @Composable
-private fun CommentsCountInfo(comments: String) {
-    Row() {
+private fun CommentsCountInfo(
+    comments: String,
+    onItemClickListener: () -> Unit
+) {
+    Row(
+        modifier = Modifier.clickable {
+            onItemClickListener
+        }
+    ) {
         Text(
             text = comments,
             fontStyle = FontStyle.Normal,
@@ -246,8 +286,15 @@ private fun CommentsCountInfo(comments: String) {
 }
 
 @Composable
-private fun LikesCountInfo(likes: String) {
-    Row() {
+private fun LikesCountInfo(
+    likes: String,
+    onItemClickListener: () -> Unit
+) {
+    Row(
+        modifier = Modifier.clickable {
+            onItemClickListener
+        }
+    ) {
         Text(
             text = likes,
             fontStyle = FontStyle.Normal,
