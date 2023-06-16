@@ -2,6 +2,7 @@ package com.example.smcardcompose.ui
 
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -11,14 +12,13 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.smcardcompose.domain.FeedPost
-import com.example.smcardcompose.domain.StatisticItem
-import com.example.smcardcompose.domain.StatisticType
 import com.example.smcardcompose.ui.theme.SMCardComposeTheme
 
 
@@ -68,10 +68,20 @@ fun MainScreen() {
             modifier = Modifier
                 .padding(8.dp),
             feedPost = feedPost.value,
-            onStatisticsItemClickListener = {
-
-    }
-
+            onStatisticsItemClickListener = { newItem ->
+                Log.d("Test", "SMCard Clicked")
+                val oldStatistics = feedPost.value.statistics
+                val newStatistics =
+                    oldStatistics.toMutableStateList().apply {
+                        replaceAll { oldItem ->
+                            if (oldItem.type == newItem.type) {
+                                oldItem.copy(count = oldItem.count + 1)
+                            } else {
+                                oldItem
+                            }
+                        }
+                    }
+                feedPost.value = feedPost.value.copy(statistics = newStatistics)
             }
         )
     }

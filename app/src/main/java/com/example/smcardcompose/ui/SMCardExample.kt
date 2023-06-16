@@ -1,6 +1,6 @@
 package com.example.smcardcompose.ui
 
-import android.widget.AdapterView.OnItemClickListener
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -115,6 +115,7 @@ private fun Statistics(
             val viewsItem = statistics.getItemByType(StatisticType.VIEWS)
             ViewsCountInfo(views = viewsItem.count.toString(),
                 onItemClickListener = {
+                    Log.d("Test", "SMCard ViewsCountInfo Clicked")
                     onItemClickListener(viewsItem)
                 })
         }
@@ -127,16 +128,20 @@ private fun Statistics(
             val sharesItem = statistics.getItemByType(StatisticType.SHARES)
             val commentsItem = statistics.getItemByType(StatisticType.COMMENTS)
             val likesItem = statistics.getItemByType(StatisticType.LIKES)
-            ShareCountInfo(shares = sharesItem.count.toString(),
+
+            SharesCountInfo(shares = sharesItem.count.toString(),
                 onItemClickListener = {
+                    Log.d("Test", "SMCard ShareCountInfo Clicked")
                     onItemClickListener(sharesItem)
                 })
             CommentsCountInfo(comments = commentsItem.count.toString(),
                 onItemClickListener = {
+                    Log.d("Test", "SMCard CommentsCountInfo Clicked")
                     onItemClickListener(commentsItem)
                 })
             LikesCountInfo(likes = likesItem.count.toString(),
                 onItemClickListener = {
+                    Log.d("Test", "SMCard LikesCountInfo Clicked")
                     onItemClickListener(likesItem)
                 })
         }
@@ -209,7 +214,8 @@ private fun ViewsCountInfo(
 ) {
     Row(
         modifier = Modifier.clickable {
-            onItemClickListener
+            Log.d("Test", "Views modifier clicked")
+            onItemClickListener()
         }
     ) {
         Text(
@@ -231,13 +237,14 @@ private fun ViewsCountInfo(
 }
 
 @Composable
-private fun ShareCountInfo(
+private fun SharesCountInfo(
     shares: String,
     onItemClickListener: () -> Unit
 ) {
     Row(
         modifier = Modifier.clickable {
-            onItemClickListener
+            Log.d("Test", "Shares modifier clicked")
+            onItemClickListener()
         }
     ) {
         Text(
@@ -265,7 +272,8 @@ private fun CommentsCountInfo(
 ) {
     Row(
         modifier = Modifier.clickable {
-            onItemClickListener
+            Log.d("Test", "Comments modifier clicked")
+            onItemClickListener()
         }
     ) {
         Text(
@@ -292,7 +300,8 @@ private fun LikesCountInfo(
 ) {
     Row(
         modifier = Modifier.clickable {
-            onItemClickListener
+            Log.d("Test", "Likes modifier clicked")
+            onItemClickListener()
         }
     ) {
         Text(
@@ -320,7 +329,8 @@ fun PreviewSMCLightTheme() {
         darkTheme = false,
         dynamicColor = false
     ) {
-        SMCard(feedPost = FeedPost())
+        SMCard(feedPost = FeedPost(),
+        onStatisticsItemClickListener = {})
 
     }
 }
@@ -332,7 +342,8 @@ fun PreviewSMCDarkTheme() {
         darkTheme = true,
         dynamicColor = false
     ) {
-        SMCard(feedPost = FeedPost())
+        SMCard(feedPost = FeedPost(),
+        onStatisticsItemClickListener = {})
 
     }
 }
