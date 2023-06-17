@@ -66,9 +66,10 @@ fun MainScreen(viewModel: MainViewModel) {
             modifier = Modifier
                 .padding(8.dp),
             feedPost = feedPost.value,
-            onStatisticsItemClickListener = {
-                viewModel.updateCount(it)
-            }
+            onViewClickListener = {viewModel.updateCount(it)},
+            onShareClickListener = {viewModel.updateCount(it)},
+            onCommentClickListener = viewModel::updateCount,
+            onLikeClickListener = viewModel::updateCount
         )
     }
 }

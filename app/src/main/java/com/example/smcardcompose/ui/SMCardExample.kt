@@ -47,7 +47,11 @@ import com.example.smcardcompose.ui.theme.SMCardComposeTheme
 fun SMCard(
     modifier: Modifier = Modifier,
     feedPost: FeedPost,
-    onStatisticsItemClickListener: (StatisticItem) -> Unit
+    onViewClickListener: (StatisticItem) -> Unit,
+    onShareClickListener: (StatisticItem) -> Unit,
+    onCommentClickListener: (StatisticItem) -> Unit,
+    onLikeClickListener: (StatisticItem) -> Unit,
+//    onStatisticsItemClickListener: (StatisticItem) -> Unit
 ) {
     Card(
         modifier = modifier
@@ -88,7 +92,10 @@ fun SMCard(
 
             Statistics(
                 statistics = feedPost.statistics,
-                onItemClickListener = onStatisticsItemClickListener
+                onViewClickListener = onViewClickListener,
+                onShareClickListener = onShareClickListener,
+                onCommentClickListener = onCommentClickListener,
+                onLikeClickListener = onLikeClickListener
             )
             //            BoxColors()
         }
@@ -98,7 +105,10 @@ fun SMCard(
 @Composable
 private fun Statistics(
     statistics: List<StatisticItem>,
-    onItemClickListener: (StatisticItem) -> Unit
+    onViewClickListener: (StatisticItem) -> Unit,
+    onShareClickListener: (StatisticItem) -> Unit,
+    onCommentClickListener: (StatisticItem) -> Unit,
+    onLikeClickListener: (StatisticItem) -> Unit,
 ) {
     Row(
         modifier = Modifier
@@ -116,7 +126,7 @@ private fun Statistics(
             ViewsCountInfo(views = viewsItem.count.toString(),
                 onItemClickListener = {
                     Log.d("Test", "SMCard ViewsCountInfo Clicked")
-                    onItemClickListener(viewsItem)
+                    onViewClickListener(viewsItem)
                 })
         }
 
@@ -132,17 +142,17 @@ private fun Statistics(
             SharesCountInfo(shares = sharesItem.count.toString(),
                 onItemClickListener = {
                     Log.d("Test", "SMCard ShareCountInfo Clicked")
-                    onItemClickListener(sharesItem)
+                    onShareClickListener(sharesItem)
                 })
             CommentsCountInfo(comments = commentsItem.count.toString(),
                 onItemClickListener = {
                     Log.d("Test", "SMCard CommentsCountInfo Clicked")
-                    onItemClickListener(commentsItem)
+                    onCommentClickListener(commentsItem)
                 })
             LikesCountInfo(likes = likesItem.count.toString(),
                 onItemClickListener = {
                     Log.d("Test", "SMCard LikesCountInfo Clicked")
-                    onItemClickListener(likesItem)
+                    onLikeClickListener(likesItem)
                 })
         }
     }
@@ -330,7 +340,10 @@ fun PreviewSMCLightTheme() {
         dynamicColor = false
     ) {
         SMCard(feedPost = FeedPost(),
-        onStatisticsItemClickListener = {})
+            onViewClickListener = {},
+            onShareClickListener = {},
+            onCommentClickListener = {},
+            onLikeClickListener = {})
 
     }
 }
@@ -343,7 +356,10 @@ fun PreviewSMCDarkTheme() {
         dynamicColor = false
     ) {
         SMCard(feedPost = FeedPost(),
-        onStatisticsItemClickListener = {})
+            onViewClickListener = {},
+            onShareClickListener = {},
+            onCommentClickListener = {},
+            onLikeClickListener = {})
 
     }
 }
