@@ -2,7 +2,6 @@ package com.example.smcardcompose.ui
 
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -10,9 +9,9 @@ import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -24,10 +23,8 @@ import com.example.smcardcompose.ui.theme.SMCardComposeTheme
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainScreen() {
-    val feedPost = remember {
-        mutableStateOf(FeedPost())
-    }
+fun MainScreen(viewModel: MainViewModel) {
+
     Scaffold(
         bottomBar = {
             BottomNavigation() {
@@ -64,24 +61,13 @@ fun MainScreen() {
             }
         },
     ) {
+        val feedPost = viewModel.feedPost.observeAsState(FeedPost())
         SMCard(
             modifier = Modifier
                 .padding(8.dp),
             feedPost = feedPost.value,
-            onStatisticsItemClickListener = { newItem ->
-                Log.d("Test", "SMCard Clicked")
-                val oldStatistics = feedPost.value.statistics
-                val newStatistics =
-                    oldStatistics.toMutableStateList().apply {
-                        replaceAll { oldItem ->
-                            if (oldItem.type == newItem.type) {
-                                oldItem.copy(count = oldItem.count + 1)
-                            } else {
-                                oldItem
-                            }
-                        }
-                    }
-                feedPost.value = feedPost.value.copy(statistics = newStatistics)
+            onStatisticsItemClickListener = {
+                viewModel.updateCount(it)
             }
         )
     }
@@ -94,7 +80,7 @@ fun PreviewLightTheme() {
         darkTheme = false,
         dynamicColor = false
     ) {
-        MainScreen()
+        MainScreen(MainViewModel())
     }
 }
 
@@ -105,7 +91,7 @@ fun PreviewDarkTheme() {
         darkTheme = true,
         dynamicColor = false
     ) {
-        MainScreen()
+        MainScreen(MainViewModel())
     }
 }
 
