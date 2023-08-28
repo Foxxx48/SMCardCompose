@@ -1,5 +1,5 @@
 # SMCardCompose 
-UI item with Jetpack Compose realization and dark/light theme.
+Элемент пользовательского интерфейса с реализацией Jetpack Compose и темной / светлой темой.
 
 ### Языки программирования и инструменты:
 <img align="left" alt="Kotlin" width="64px" hight="64px" src="https://github.com/devicons/devicon/blob/master/icons/kotlin/kotlin-original.svg" style="padding-right:10px;" />
